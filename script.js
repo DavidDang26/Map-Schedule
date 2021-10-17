@@ -346,19 +346,17 @@ class App {
      //delete old workout
      this.#workouts.push(workout);
       this._implementWorkout(workout);
+      this.#workouts.splice(+this.#workouts.findIndex(workout => workout.id === this.#updateWorkout.id),1);
+    localStorage.removeItem('workouts');
       //Set local storage for the workout
       this._setLocalStorage();
-    
+      location.reload();
     
   }
   _deleteWorkout(e){
-    console.log(e.target);
     const workoutEl = e.target.closest('.workout');
     if(!workoutEl || !e.target.closest('.workout__delete')) return;
-    console.log(this.#workouts);
-    console.log(+this.#workouts.findIndex(workout => workout.id === workoutEl.dataset.id));
     this.#workouts.splice(+this.#workouts.findIndex(workout => workout.id === workoutEl.dataset.id),1);
-    console.log(this.#workouts);
     localStorage.removeItem('workouts');
     this._setLocalStorage();
     location.reload();
