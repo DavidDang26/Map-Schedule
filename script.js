@@ -20,6 +20,8 @@ const inputCadence = document.querySelector('.form--create .form__input--cadence
 const inputElevation = document.querySelector('.form--create .form__input--elevation');
 
 const btnDelete = document.querySelector('.btn__deleteAll');
+const btnSort = document.querySelector('.btn__sort');
+const inputCriterion = document.querySelector('.sort__criterion')
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
@@ -81,6 +83,7 @@ class App {
     document.addEventListener('click',this._deleteWorkout.bind(this));
     formUpdate.addEventListener('submit',this._updateWorkout.bind(this));
     btnDelete.addEventListener('click',this._deleteAllWorkouts.bind(this));
+    btnSort.addEventListener('click',this._sortWorkouts.bind(this));
   }
   _getPosition() {
     navigator.geolocation.getCurrentPosition(
@@ -363,8 +366,17 @@ class App {
       work.parentElement.removeChild(work);
     })
     this.#workouts = [];
-    this._setLocalStorage();
     localStorage.removeItem('workouts');
+    location.reload();
+  }
+  _sortWorkouts(){
+    const criterion = inputCriterion.value.toLowerCase();
+    const fake = this.#workouts.slice();
+    fake.sort((a,b) => a[criterion]-b[criterion]);
+    document.querySelectorAll('.workout').forEach(work => {
+      work.parentElement.removeChild(work);
+    });
+    fake.forEach(this._renderingTheList);
   }
 }
 const app = new App();

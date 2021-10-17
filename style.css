@@ -54,6 +54,12 @@ a:visited {
   align-self: center;
   margin-bottom: 4rem;
 }
+.sort__option{
+  position: relative;
+  font-size: 1.5rem;
+  left: 68%;
+  bottom: 2%;
+}
 .btn__containers{
   display: flex;
   justify-content: space-between;
@@ -68,7 +74,7 @@ a:visited {
   cursor: pointer;
   
 }
-.btn__deleteAll:active{
+.btn__deleteAll:active,.btn__sort:active{
   transform: translateY(0.3rem);
 }
 .fa-trash-alt{
@@ -77,6 +83,11 @@ a:visited {
 .btn__sort{
   margin-bottom: 1rem;
   font-size: 2rem;
+  background-color: rgb(252, 206, 56);
+  padding: 0 1.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  color: black;
 }
 .workouts {
   list-style: none;
