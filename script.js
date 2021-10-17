@@ -21,7 +21,8 @@ const inputElevation = document.querySelector('.form--create .form__input--eleva
 
 const btnDelete = document.querySelector('.btn__deleteAll');
 const btnSort = document.querySelector('.btn__sort');
-const inputCriterion = document.querySelector('.sort__criterion')
+const inputCriterion = document.querySelector('.sort__criterion');
+const inputSortType = document.querySelector('.sort__type');
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
@@ -371,8 +372,10 @@ class App {
   }
   _sortWorkouts(){
     const criterion = inputCriterion.value.toLowerCase();
+    const type = inputSortType.value.toLowerCase();
     const fake = this.#workouts.slice();
-    fake.sort((a,b) => a[criterion]-b[criterion]);
+    if(type === 'descending')
+    fake.sort((a,b) => a[criterion]-b[criterion]);else fake.sort((a,b) => b[criterion]-a[criterion]);
     document.querySelectorAll('.workout').forEach(work => {
       work.parentElement.removeChild(work);
     });
