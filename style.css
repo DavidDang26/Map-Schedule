@@ -54,7 +54,30 @@ a:visited {
   align-self: center;
   margin-bottom: 4rem;
 }
-
+.btn__containers{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.btn__deleteAll{
+  font-size: 2rem;
+  background-color: rgb(252, 56, 56);
+  padding: 0 1.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  
+}
+.btn__deleteAll:active{
+  transform: translateY(0.3rem);
+}
+.fa-trash-alt{
+  margin-left: 1rem;
+}
+.btn__sort{
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
 .workouts {
   list-style: none;
   height: 77vh;

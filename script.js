@@ -18,8 +18,8 @@ const inputDistance = document.querySelector('.form--create .form__input--distan
 const inputDuration = document.querySelector('.form--create .form__input--duration');
 const inputCadence = document.querySelector('.form--create .form__input--cadence');
 const inputElevation = document.querySelector('.form--create .form__input--elevation');
-let editBtn ;
-let deleteBtn ;
+
+const btnDelete = document.querySelector('.btn__deleteAll');
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
@@ -32,14 +32,6 @@ class Workout {
     this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
-  }
-  calPace() {
-    //min/km
-    this.pace = this.duration / this.distance;
-  }
-  calSpeed() {
-    //km/h
-    this.speed = this.distance / (this.duration / 60);
   }
 }
 class Running extends Workout {
@@ -88,6 +80,7 @@ class App {
     document.addEventListener('click',this._editWorkout.bind(this));
     document.addEventListener('click',this._deleteWorkout.bind(this));
     formUpdate.addEventListener('submit',this._updateWorkout.bind(this));
+    btnDelete.addEventListener('click',this._deleteAllWorkouts.bind(this));
   }
   _getPosition() {
     navigator.geolocation.getCurrentPosition(
@@ -298,6 +291,7 @@ class App {
       this._toggleElementUpdateField();
       inputElevationUpdate.value = workout.elevationGain;
     }
+    workoutEl.parentElement.removeChild(workoutEl);
     //updating after editted
     this.#updateWorkout = workout;
     
@@ -343,11 +337,13 @@ class App {
         workout = new Cycling(distance, duration, coords, elevation);
       }
     }
+
+
+
      //delete old workout
      this.#workouts.push(workout);
       this._implementWorkout(workout);
       this.#workouts.splice(+this.#workouts.findIndex(workout => workout.id === this.#updateWorkout.id),1);
-    localStorage.removeItem('workouts');
       //Set local storage for the workout
       this._setLocalStorage();
       location.reload();
@@ -357,9 +353,18 @@ class App {
     const workoutEl = e.target.closest('.workout');
     if(!workoutEl || !e.target.closest('.workout__delete')) return;
     this.#workouts.splice(+this.#workouts.findIndex(workout => workout.id === workoutEl.dataset.id),1);
-    localStorage.removeItem('workouts');
+    workoutEl.parentElement.removeChild(workoutEl)
     this._setLocalStorage();
     location.reload();
+    
+  }
+  _deleteAllWorkouts(){
+    document.querySelectorAll('.workout').forEach(work => {
+      work.parentElement.removeChild(work);
+    })
+    this.#workouts = [];
+    this._setLocalStorage();
+    localStorage.removeItem('workouts');
   }
 }
 const app = new App();
